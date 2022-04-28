@@ -25,6 +25,7 @@ Vagrant.configure("2") do |config|
 
 
     subconfig.vm.box = "gusztavvargadr/windows-server"
+    subconfig.vm.box_version = "2102.0.2204"
     subconfig.vm.hostname = "aurordc"
 
     subconfig.vm.communicator = "winrm"
@@ -53,6 +54,7 @@ Vagrant.configure("2") do |config|
     end
     
     subconfig.vm.box = "gusztavvargadr/windows-server"
+    subconfig.vm.box_version = "2102.0.2204"
     subconfig.vm.hostname = "machineb"
 
     subconfig.vm.communicator = "winrm"
