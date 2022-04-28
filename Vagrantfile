@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 2048]
       vb.customize ["modifyvm", :id, "--cpus", 2]
-      vb.customize ["modifyvm", :id, "--vram", "128"]
+      vb.customize ["modifyvm", :id, "--vram", "58"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
@@ -48,12 +48,12 @@ Vagrant.configure("2") do |config|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 2048]
       vb.customize ["modifyvm", :id, "--cpus", 2]
-      vb.customize ["modifyvm", :id, "--vram", "128"]
+      vb.customize ["modifyvm", :id, "--vram", "58"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
     
-    subconfig.vm.box = "gusztavvargadr/windows-server"
+    subconfig.vm.box = "gusztavvargadr/windows-10"
     subconfig.vm.box_version = "2102.0.2204"
     subconfig.vm.hostname = "machineb"
 
@@ -69,6 +69,7 @@ Vagrant.configure("2") do |config|
 
     ## Machine B Provisioning
     subconfig.vm.provision :shell,  path: "scripts/provision_machine_b.ps1", args: "-domain_ip #{$domain_ip_address} -domain_name #{$domain}"
+    subconfig.vm.provision :shell, reboot: true
     subconfig.vm.provision :shell,  path: "scripts/install_chocolatey.ps1"
     subconfig.vm.provision :shell,  inline: "choco install -y googlechrome"
   end

@@ -2,10 +2,11 @@
 net user adam Pass@123 /add
 
 # https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2012-active-directory-forest--level-200-#BKMK_PSForest
-$domain_name  = "auror.local"
+$domain_name = "auror.local"
 $netbios_name = "auror"
-$mode  = "WinThreshold"
+$mode = "WinThreshold"
 $password = "Password@123"
+$secure_password = ConvertTo-SecureString -String $password -AsPlainText -Force	
 
 # https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-active-directory-domain-services--level-100-
 Install-WindowsFeature -name AD-Domain-Services -IncludeAllSubFeature -IncludeManagementTools
@@ -15,20 +16,20 @@ Import-Module ADDSDeployment
 
 $ADProperties = @{
 
-    DatabasePath         = "C:\Windows\NTDS"
-    LogPath              = "C:\Windows\NTDS"
-    SysvolPath           = "C:\Windows\SYSVOL"
+    DatabasePath                  = "C:\Windows\NTDS"
+    LogPath                       = "C:\Windows\NTDS"
+    SysvolPath                    = "C:\Windows\SYSVOL"
     
-    DomainName           = $domain_name
-    DomainNetbiosName    = $netbios_name
+    DomainName                    = $domain_name
+    DomainNetbiosName             = $netbios_name
     
-    ForestMode           = $mode
-    DomainMode           = $mode
-    SafeModeAdministratorPassword = $password | ConvertTo-SecureString -AsPlainText -Force
+    ForestMode                    = $mode
+    DomainMode                    = $mode
+    SafeModeAdministratorPassword = $secure_password
     
-    InstallDns           = $true
-    Force                = $true
-    NoRebootOnCompletion = $true
+    InstallDns                    = $true
+    Force                         = $true
+    NoRebootOnCompletion          = $true
 }
 
-Install-ADDSForest @$ADProperties
+Install-ADDSForest @ADProperties
