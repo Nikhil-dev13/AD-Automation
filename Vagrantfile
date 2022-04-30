@@ -66,8 +66,6 @@ Vagrant.configure("2") do |config|
 
 
     ## Machine B Provisioning
-    subconfig.vm.provision :shell, path: "scripts/change_hostname.ps1", privileged: true, args: "-password vagrant -user vagrant -hostname machineb"
-    subconfig.vm.provision :shell, reboot: true
     subconfig.vm.provision :shell,  path: "scripts/provision_machine_b.ps1", args: "-domain_ip #{$domain_ip_address} -domain_name #{$domain}"
     subconfig.vm.provision :shell, reboot: true
     subconfig.vm.provision :shell,  path: "scripts/install_chocolatey.ps1"
