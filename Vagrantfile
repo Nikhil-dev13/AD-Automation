@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
     ## VirtualBox Configuration
     subconfig.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
-      vb.name = "Auror-DC"
+      vb.name = "MachineA-WINServer"
       vb.customize ["modifyvm", :id, "--memory", 2048]
       vb.customize ["modifyvm", :id, "--cpus", 2]
       vb.customize ["modifyvm", :id, "--vram", "58"]
@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
     ## Virtual Box Configuration
     subconfig.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
-      vb.name = "Auror-Machb"
+      vb.name = "MachineB-WIN10"
       vb.customize ["modifyvm", :id, "--memory", 2048]
       vb.customize ["modifyvm", :id, "--cpus", 2]
       vb.customize ["modifyvm", :id, "--vram", "58"]
@@ -59,11 +59,14 @@ Vagrant.configure("2") do |config|
     # Box Configuration
     subconfig.vm.box = "gusztavvargadr/windows-10"
     subconfig.vm.box_version = "2102.0.2204"
+
     # Network Configuration
+    
     subconfig.vm.network :private_network, ip: $machine_B_ip_address
 
+
     ## Machine B Provisioning
-    subconfig.vm.provision :shell, path: "scripts/change_hostname.ps1", args: "-password vagrant -user vagrant -hostname machineb"
+    subconfig.vm.provision :shell, path: "scripts/change_hostname.ps1", privileged: true, args: "-password vagrant -user vagrant -hostname machineb"
     subconfig.vm.provision :shell, reboot: true
     subconfig.vm.provision :shell,  path: "scripts/provision_machine_b.ps1", args: "-domain_ip #{$domain_ip_address} -domain_name #{$domain}"
     subconfig.vm.provision :shell, reboot: true
